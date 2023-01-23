@@ -17,7 +17,7 @@ proc run_command(cmd: seq[string]) =
   let args = cmd[1 .. ^1]
   let start = getMonoTime()
   let child = startProcess(cmd[0], args=args, options={poUsePath, poParentStreams})
-  discard child.waitForExit
+  let status = child.waitForExit
   let stop = getMonoTime()
   child.close
 
@@ -34,5 +34,7 @@ proc run_command(cmd: seq[string]) =
   let microPart = wtime.inMicroseconds - 1_000_000 * wtime.inSeconds
   stderr.write "Elapsed: ", wtime.inSeconds, ".", align($microPart, 6, '0'), "s, "
   stderr.write "MaxRss: ", res.ru_maxrss, "kb\n"
+
+  quit status
 
 run_command commandLineParams()

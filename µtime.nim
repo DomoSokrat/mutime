@@ -45,4 +45,6 @@ proc run_command(cmd: seq[string]) =
   stderr.write "Elapsed: ", wtime.inSeconds, ".", align($microPart, 6, '0'), "s, "
   stderr.write "MaxRss: ", res.ru_maxrss, "kb\n"
 
+  quit if WIFEXITED(status): WEXITSTATUS(status) elif WIFSIGNALED(status): 128+WTERMSIG(status) else: -1
+
 run_command commandLineParams()
