@@ -37,4 +37,6 @@ proc run_command(cmd: seq[string]) =
 
   quit status
 
+setControlCHook(proc() {.noconv.} = discard)
+
 run_command commandLineParams()

@@ -47,4 +47,6 @@ proc run_command(cmd: seq[string]) =
 
   quit if WIFEXITED(status): WEXITSTATUS(status) elif WIFSIGNALED(status): 128+WTERMSIG(status) else: -1
 
+setControlCHook(proc() {.noconv.} = discard)
+
 run_command commandLineParams()
